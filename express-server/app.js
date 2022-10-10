@@ -1,8 +1,12 @@
 const { fail } = require("assert");
 const express = require("express");
 const fs = require("fs");
+const morgan = require('morgan');
+const mongoose = require('mongoose')
+const connectDB = require('./server')
 
 const app = express();
+connectDB()
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
