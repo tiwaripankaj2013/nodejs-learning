@@ -4,7 +4,7 @@
   "description": "Learning node mongodb and express",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Pankaj Kumar Tiwari",
@@ -20,6 +20,7 @@
     "mongoose": "^6.6.5",
     "morgan": "^1.10.0",
     "nodemon": "^2.0.20",
-    "prettier": "^2.7.1"
+    "prettier": "^2.7.1",
+    "slugify": "^1.6.5"
   }
 }
