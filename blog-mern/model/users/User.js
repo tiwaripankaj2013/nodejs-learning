@@ -108,8 +108,15 @@ userSchema.pre("save", async function(next){
   this.password = await bcrypt.hash(this.password,salt);
   next();
 });
+// virtual method to populate created post
 
-//match password
+userSchema.virtual('post',{
+  ref:'Post',
+  foreignField:'user',
+  localField:'_id',
+})
+
+//Hash password
 userSchema.methods.isPasswordMatched = async function(enteredPassword){
   return await bcrypt.compare(enteredPassword,this.password)
 }

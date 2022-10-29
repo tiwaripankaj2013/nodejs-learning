@@ -1,10 +1,12 @@
 const expressAsyncHandler = require("express-async-handler");
 const generateToken = require("../../config/token/generateToken");
 const sgMail = require("@sendgrid/mail");
+const fs = require("fs");
 const User = require("../../model/users/User");
 const validateMongodbId = require("../../utils/validateMongodbID");
 const crypto = require("crypto");
 const cloudinaryUploadImg = require("../../utils/cloudinary");
+const { fstat } = require("fs");
 sgMail.setApiKey(process.env.SEND_GRID_API_KEY);
 const userRegisterCtrl = async (req, res) => {
   const userExists = await User.findOne({ email: req?.body?.email });
@@ -82,7 +84,7 @@ const userProfileCtrl = expressAsyncHandler(async (req, res) => {
   const { id } = req.params;
   validateMongodbId(id);
   try {
-    const myProfile = await User.findById(id);
+    const myProfile = await User.findById(id).populate('posts');
   } catch (error) {
     res.json(error);
   }
@@ -295,10 +297,11 @@ const profilePhotoUploadCtrl = expressAsyncHandler(async (req, res) => {
   const foundUser = await User.findByIdAndUpdate(
     _id,
     {
-      profilePhoto: imgUploaded,
+      profilePhoto: imgUploaded?.url,
     },
     { new: true }
   );
+  fs.unlinkSync(localPath);
   res.json(foundUser);
 });
 module.exports = {
