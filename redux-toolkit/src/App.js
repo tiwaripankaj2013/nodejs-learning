@@ -1,35 +1,22 @@
-import { useEffect } from 'react';
+import { BrowserRouter as Router,Routes,Route} from 'react-router-dom';
 import './App.css';
-import {useDispatch, useSelector} from 'react-redux';
-import {increment,decrement,increaseByAmount, fetchPost } from './redux/slices/counterSlices';
-
+import Contact from './components/Contact';
+import Home from './components/Home';
+import Admin from './components/Admin';
+import About from './components/About';
 function App() {
-  const dispatch = useDispatch();
-  useEffect(()=>{
-    dispatch(fetchPost());
-  },[]);
-  const post  = useSelector(state =>state.post);
-  const {postsList,loading} = post;
-  console.log({postsList,loading});
-  const counter  = useSelector(state => state?.counter);
-  console.log(counter);
+
   return (
-    <div className="App">
-      <h1>Redux learning</h1>
-    <h2>Counter:{counter?.value}</h2>
-    <button onClick={()=>dispatch(increment())}>+</button>
-    <button onClick={()=>dispatch(decrement())}>-</button>
-    <button onClick={()=>dispatch(increaseByAmount(11))}>increase Amount</button>
-    <div>
-      <h3>Post List</h3>
-      {loading ?<h2>Loading...</h2>:postsList?.map(post =>(
-        <div key={post?.id}>
-        <h4>{post?.title}</h4>
-        <p>{post?.body}</p>
-        </div>
-      ))}
-    </div>
-    </div>
+    <Router>
+      <Routes>
+      <Route path='/' element={<Home />} />
+      <Route path='/about' element={<About />} />
+      <Route path='/contact' element={<Contact />} />
+      <Route path='/admin' element={<Admin />} />
+      <Route path='/admin' element={<Admin />} />
+      <Route path='*' element={<h1 style={{textAlign:'center'}}>404. Not Found</h1>} />
+      </Routes>
+    </Router>
   );
 }
 
